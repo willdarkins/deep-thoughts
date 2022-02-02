@@ -18,9 +18,9 @@ const resolvers = {
     // get all users
     users: async () => {
       return User.find()
-      // Both of them will omit the Mongoose-specific __v property and the user's password information
+        // Both of them will omit the Mongoose-specific __v property and the user's password information
         .select('-__v -password')
-      // We also populate the fields for friends and thoughts, so we can get any associated data in return.
+        // We also populate the fields for friends and thoughts, so we can get any associated data in return.
         .populate('friends')
         .populate('thoughts');
     },
@@ -31,6 +31,18 @@ const resolvers = {
         .populate('friends')
         .populate('thoughts');
     },
+  },
+  Mutation: {
+    // The Mongoose User model creates a new user in the database
+    // with whatever is passed in as the args.
+    addUser: async (parent, args) => {
+      const user = await User.create(args);
+    
+      return user;
+    },
+    login: async () => {
+
+    }
   }
 };
 
