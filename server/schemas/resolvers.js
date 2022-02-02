@@ -1,9 +1,12 @@
+// imported from Mongoose models
+const { User, Thought } = require('../models');
+
 const resolvers = {
-    Query: {
-      helloWorld: () => {
-        return 'Hello world!';
-      }
+  Query: {
+    thoughts: async () => {
+      return Thought.find().sort({ createdAt: -1 });
     }
-  };
+  }
+};
   
   module.exports = resolvers;
