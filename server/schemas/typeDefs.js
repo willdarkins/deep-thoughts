@@ -9,6 +9,13 @@ const typeDefs = gql`
         createdAt: String
         username: String
         reactionCount: Int
+        reactions: [Reaction]
+    }
+    type Reaction {
+        _id: ID
+        reactionBody: String
+        createdAt: String
+        username: String
     }
     # With this, we've now defined our thoughts query that it could receive a parameter if we wanted.
     # In this case, the parameter would be identified as username and would have a String data type.
