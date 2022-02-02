@@ -1,3 +1,5 @@
+// built-in GraphQL authentication error handling
+const { AuthenticationError } = require('apollo-server-express');
 // imported from Mongoose models
 const { User, Thought } = require('../models');
 
@@ -40,8 +42,22 @@ const resolvers = {
     
       return user;
     },
-    login: async () => {
-
+    // taking in the input value from email and password as args and passing through the resolver
+    login: async (parent, { email, password }) => {
+      // assigning the user variable to the email arg...
+      // if the email doesn't exist -- GraphQL throws an error
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+      // assigning the correctPw variable to the password arg...
+      // if the password doesn't exist -- GraphQL throws an error
+      const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+    
+      return user;
     }
   }
 };
