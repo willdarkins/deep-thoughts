@@ -35,6 +35,17 @@ const resolvers = {
         .populate('friends')
         .populate('thoughts');
     },
+    me: async (parent, args, context) => {
+      if (context.user) {
+        const userData = await User.findOne({ _id: context.user._id })
+          .select('-__v -password')
+          .populate('thoughts')
+          .populate('friends');
+
+        return userData;
+      }
+      throw new AuthenticationError('Not logged in');
+    }
   },
   Mutation: {
     // The Mongoose User model creates a new user in the database
@@ -43,7 +54,7 @@ const resolvers = {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
-    
+
       return { token, user };
     },
     // taking in the input value from email and password as args and passing through the resolver
@@ -61,10 +72,10 @@ const resolvers = {
       if (!correctPw) {
         throw new AuthenticationError('Incorrect credentials');
       }
-    
+
       const token = signToken(user);
       return { token, user };
-    }
+    },
   }
 };
 
