@@ -2,6 +2,8 @@
 const { AuthenticationError } = require('apollo-server-express');
 // imported from Mongoose models
 const { User, Thought } = require('../models');
+// importing the JSONwebtoken to be used in the addUser and Login mutations
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
@@ -37,12 +39,15 @@ const resolvers = {
   Mutation: {
     // The Mongoose User model creates a new user in the database
     // with whatever is passed in as the args.
+    // sign a token and return an object that combines the token with the user's data
     addUser: async (parent, args) => {
       const user = await User.create(args);
+      const token = signToken(user);
     
-      return user;
+      return { token, user };
     },
     // taking in the input value from email and password as args and passing through the resolver
+    // sign a token and return an object that combines the token with the user's data
     login: async (parent, { email, password }) => {
       // assigning the user variable to the email arg...
       // if the email doesn't exist -- GraphQL throws an error
@@ -57,7 +62,8 @@ const resolvers = {
         throw new AuthenticationError('Incorrect credentials');
       }
     
-      return user;
+      const token = signToken(user);
+      return { token, user };
     }
   }
 };

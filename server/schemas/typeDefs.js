@@ -25,6 +25,11 @@ const typeDefs = gql`
         thoughts: [Thought]
         friends: [User]
     }
+    # This means that an Auth type must return a token and can optionally include any other user data.
+    type Auth {
+        token: ID!
+        user: User
+    }
     # With this, we've now defined our thoughts query that it could receive a parameter if we wanted.
     # In this case, the parameter would be identified as username and would have a String data type.
     type Query {
@@ -34,8 +39,8 @@ const typeDefs = gql`
         thought(_id: ID!): Thought
     }
     type Mutation {
-        login(email: String!, password: String!): User
-        addUser(username: String!, email: String!, password: String!): User
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
     }
 `;
 
