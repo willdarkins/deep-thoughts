@@ -12,7 +12,26 @@ const resolvers = {
       // If there's not, it'll simply return every thought.
       return Thought.find(params).sort({ createdAt: -1 });
     },
+    thought: async (parent, { _id }) => {
+      return Thought.findOne({ _id });
+    },
+    // get all users
+    users: async () => {
+      return User.find()
+      // Both of them will omit the Mongoose-specific __v property and the user's password information
+        .select('-__v -password')
+      // We also populate the fields for friends and thoughts, so we can get any associated data in return.
+        .populate('friends')
+        .populate('thoughts');
+    },
+    // get a user by username
+    user: async (parent, { username }) => {
+      return User.findOne({ username })
+        .select('-__v -password')
+        .populate('friends')
+        .populate('thoughts');
+    },
   }
 };
-  
-  module.exports = resolvers;
+
+module.exports = resolvers;
