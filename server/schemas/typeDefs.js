@@ -17,10 +17,21 @@ const typeDefs = gql`
         createdAt: String
         username: String
     }
+    type User {
+        _id: ID
+        username: String
+        email: String
+        friendCount: Int
+        thoughts: [Thought]
+        friends: [User]
+    }
     # With this, we've now defined our thoughts query that it could receive a parameter if we wanted.
     # In this case, the parameter would be identified as username and would have a String data type.
     type Query {
+        users: [User]
+        user(username: String!): User
         thoughts(username: String): [Thought]
+        thought(_id: ID!): Thought
     }
 `;
 
