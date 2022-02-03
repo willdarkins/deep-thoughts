@@ -9,6 +9,16 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import Home from './pages/Home';
+// we first establish a new link to the GraphQL server at its /graphql endpoint with createHttpLink()
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
+// we use the ApolloClient() constructor to instantiate the Apollo Client instance and create the connection to the API endpoint.
+// We also instantiate a new cache object using new InMemoryCache()
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+});
 
 function App() {
   return (
