@@ -22,6 +22,7 @@ const client = new ApolloClient({
 
 function App() {
   return (
+    // enable our entire application to interact with our Apollo Client instance
     <ApolloProvider client={client}>
     <div className='flex-column justify-flex-start min-100-vh'>
       <Header />
