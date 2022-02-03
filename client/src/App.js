@@ -9,7 +9,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@ap
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
-// import NoMatch from './pages/NoMatch';
+import NoMatch from './pages/NoMatch';
 import SingleThought from './pages/SingleThought';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
@@ -39,6 +39,7 @@ function App() {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/thought" component={SingleThought} />
+            <Route component={NoMatch} />
           </div>
           <Footer />
         </div>
