@@ -12,7 +12,7 @@ const ThoughtList = ({ thoughts, title }) => {
         thoughts.map(thought => (
           <div key={thought._id} className="card mb-3">
             <p className="card-header">
-              {thought.username}
+              {thought.username} 🧠
               thought on {thought.createdAt}
             </p>
             <div className="card-body">
