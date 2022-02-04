@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 // createHttpLink allows us to control how the Apollo Client makes a request....
 // Think of it like middleware for the outbound network requests.
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
@@ -19,10 +20,21 @@ import Home from './pages/Home';
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
 });
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 // we use the ApolloClient() constructor to instantiate the Apollo Client instance and create the connection to the API endpoint.
 // We also instantiate a new cache object using new InMemoryCache()
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
