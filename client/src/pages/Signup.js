@@ -17,21 +17,21 @@ const Signup = () => {
     });
   };
 
-// submit form (notice the async!)
-const handleFormSubmit = async event => {
-  event.preventDefault();
+  // submit form (notice the async!)
+  const handleFormSubmit = async event => {
+    event.preventDefault();
 
-  // use try/catch instead of promises to handle errors
-  try {
-    // execute addUser mutation and pass in variable data from form
-    const { data } = await addUser({
-      variables: { ...formState }
-    });
-    console.log(data);
-  } catch (e) {
-    console.error(e);
-  }
-};
+    // use try/catch instead of promises to handle errors
+    try {
+      // execute addUser mutation and pass in variable data from form
+      const { data } = await addUser({
+        variables: { ...formState }
+      });
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <main className='flex-row justify-center mb-4'>
@@ -71,6 +71,7 @@ const handleFormSubmit = async event => {
                 Submit
               </button>
             </form>
+            {error && <div>Sign up failed</div>}
           </div>
         </div>
       </div>
